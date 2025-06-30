@@ -1,3 +1,13 @@
+Here’s an updated README draft reflecting recent changes like:
+
+* Added support for lockfiles (`--include-lockfiles` flag) including `package-lock.json`, `Pipfile.lock`
+* Support for devDependencies in npm scanning
+* Tracking multiple paths per dependency in reports
+* More explicit ecosystem coverage
+
+---
+
+````markdown
 # vibe-validator
 
 [oo] Vibe check your dependencies.
@@ -6,21 +16,21 @@
 
 It flags packages that:
 
-- ❌ Don’t exist in public registries
-- [~] Are recently published (less than 30 days old)
+- [x] Don't exist in public registries
+- [~] Are recently changed (less than 30 days old)
 - [✓] Pass the vibe check
 
 ## 🧪 Supported Ecosystems
 
-- **Python**: `requirements.txt`
-- **Node.js**: `package.json`
+- **Python**: `requirements.txt`, `Pipfile.lock` (lockfile support via `--include-lockfiles`)
+- **Node.js**: `package.json` (includes `dependencies` & `devDependencies`), `package-lock.json`, `yarn.lock`, `pnpm-lock.yaml` (lockfile support via `--include-lockfiles`)
 - **Go**: `go.mod`
 
-More to come: Dockerfiles, import statements, source scanning.
+More to come: Dockerfiles, source import scanning.
 
 ## 📦 Installation
 
-Build from source (requires Go 1.20+):
+Build from source (requires Go 1.24+):
 
 ```bash
 git clone https://github.com/Kelcode-Dev/vibe-validator.git
@@ -37,15 +47,15 @@ go install github.com/Kelcode-Dev/vibe-validator@latest
 ## 🚀 Usage
 
 ```bash
-vibe-validator <path-to-project>
+vibe-validator <path-to-project> [--include-lockfiles]
 ```
 
 Examples:
 
 ```bash
 vibe-validator .
-vibe-validator ./tests/npm
-vibe-validator ~/code/my-cool-app
+vibe-validator ./tests/npm --include-lockfiles
+vibe-validator ~/code/my-cool-app --include-lockfiles
 ```
 
 ## ✅ Output Format
@@ -58,15 +68,15 @@ Terminal-friendly output:
 [vibe-validator] Dependency Vibe Report
 
 pypi:
-  [✓] requests             -
-  [✗] shady-lib            Not found on PyPI
+  [✓] requests             -                  tests/pypi/requirements.txt
+  [✗] shady-lib            Not found on PyPI  tests/pypi/Pipfile.lock
 
 npm:
-  [✓] express              -
-  [✗] weird-package        Not found on npm
+  [✓] express              -                  tests/npm/package-lock.json, tests/npm/package.json
+  [✗] weird-package        Not found on npm   tests/npm/package-lock.json
 
 go:
-  [~] github.com/sus/module     Recently added (fetched 4h ago)
+  [~] github.com/sus/module     Recently added (3 days ago)  tests/go/go.mod
 ```
 
 ## 🛠️ Roadmap
@@ -76,11 +86,7 @@ go:
 * [ ] Output options: `--json`, `--yaml`, `--markdown`
 * [ ] CI-friendly exit codes (`--strict`)
 * [ ] Package risk scores / badges
-* [ ] Plugin system for custom registries (e.g. internal Artifactory)
-
-## 👀 Logo
-
-Coming soon: GOGO the dancer 🕺 with shades, clipboard, and heavy judgement.
+* [ ] New validators for PHP Composer, Ruby Gemfiles, extensions to existing validators for things like poetry etc.
 
 ## 📜 License
 
