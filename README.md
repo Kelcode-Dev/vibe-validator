@@ -1,13 +1,3 @@
-Here’s an updated README draft reflecting recent changes like:
-
-* Added support for lockfiles (`--include-lockfiles` flag) including `package-lock.json`, `Pipfile.lock`
-* Support for devDependencies in npm scanning
-* Tracking multiple paths per dependency in reports
-* More explicit ecosystem coverage
-
----
-
-````markdown
 # vibe-validator
 
 [oo] Vibe check your dependencies.
