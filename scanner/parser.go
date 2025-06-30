@@ -11,13 +11,31 @@ import (
 )
 
 // ScanDependencies returns three maps of dependency name → file path
-func ScanDependencies(projectPath string, includeLockfiles bool) (map[string][]string, map[string][]string, map[string][]string) {
+func ScanDependencies(projectPath string, includeLockfiles bool, includeVendor bool) (map[string][]string, map[string][]string, map[string][]string) {
   pyDeps := make(map[string][]string)
   npmDeps := make(map[string][]string)
   goDeps := make(map[string][]string)
 
+  excludedDirs := map[string]struct{}{
+    "node_modules": {},
+    "vendor":       {},
+    ".venv":        {},
+    "env":          {},
+    "__pycache__":  {},
+  }
+
   filepath.Walk(projectPath, func(path string, info os.FileInfo, err error) error {
-    if err != nil || info.IsDir() {
+    if err != nil {
+      return nil
+    }
+
+    if info.IsDir() {
+      base := filepath.Base(path)
+      if !includeVendor {
+        if _, excluded := excludedDirs[base]; excluded {
+          return filepath.SkipDir
+        }
+      }
       return nil
     }
 
@@ -68,7 +86,7 @@ func parseRequirements(path string, deps map[string][]string) {
 
     // strip version operators
     name := line
-    for _, sep := range []string{">=", "==", "<=", "~=", "!=", ">", "<"} {
+    for _, sep := range []string{">=", "==", "<=", "~=", "!=", ">", "<", "["} {
       if idx := strings.Index(name, sep); idx != -1 {
         name = name[:idx]
       }

@@ -3,17 +3,21 @@ package cmd
 import (
   "fmt"
   "os"
+  "time"
 
   "github.com/spf13/cobra"
   "github.com/Kelcode-Dev/vibe-validator/scanner"
   "github.com/Kelcode-Dev/vibe-validator/validator"
   "github.com/Kelcode-Dev/vibe-validator/reporter"
+  "github.com/briandowns/spinner"
 )
 
 var includeLockfiles bool
+var includeVendor bool
 
 func init() {
   rootCmd.Flags().BoolVar(&includeLockfiles, "include-lockfiles", false, "Scan npm/yarn lockfiles for all dependencies")
+  rootCmd.Flags().BoolVar(&includeVendor, "include-vendor", false, "Include vendor directories in scanning (slow!)")
 }
 
 var rootCmd = &cobra.Command{
@@ -24,8 +28,15 @@ var rootCmd = &cobra.Command{
     path := args[0]
     fmt.Println("[oo] Scanning:", path)
 
-    pyDeps, npmDeps, goDeps := scanner.ScanDependencies(path, includeLockfiles)
+    s := spinner.New(spinner.CharSets[9], 100*time.Millisecond)
+    s.Suffix = " scanning dependencies..."
+    s.Start()
+    defer s.Stop()
+
+    pyDeps, npmDeps, goDeps := scanner.ScanDependencies(path, includeLockfiles, includeVendor)
     results := validator.ValidatePackages(pyDeps, npmDeps, goDeps)
+
+    s.Stop() // stop spinner before printing
     reporter.PrintReport(results)
   },
 }
