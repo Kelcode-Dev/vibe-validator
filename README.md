@@ -6,9 +6,9 @@
 
 It flags packages that:
 
-- [x] Don't exist in public registries
-- [~] Are recently changed (less than 30 days old)
-- [✓] Pass the vibe check
+- `[x]` Don't exist in public registries
+- `[~]` Are recently changed (less than 30 days old)
+- `[✓]` Pass the vibe check
 
 ## 🧪 Supported Ecosystems
 
