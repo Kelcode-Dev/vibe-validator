@@ -1,0 +1,2 @@
+requests==2.28.2
+not-a-real-pkg==1.0.0

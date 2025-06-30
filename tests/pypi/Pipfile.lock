@@ -1,0 +1,40 @@
+{
+  "_meta": {
+    "hash": {
+      "sha256": "dummyhashvalue"
+    },
+    "pipfile-spec": 6,
+    "requires": {
+      "python_version": "3.10"
+    }
+  },
+  "default": {
+    "requests": {
+      "version": "==2.28.1",
+      "hashes": [
+        "sha256:dummyhash1",
+        "sha256:dummyhash2"
+      ]
+    },
+    "some-fake-package": {
+      "version": "==0.1.0",
+      "hashes": [
+        "sha256:dummyhash3"
+      ]
+    }
+  },
+  "develop": {
+    "pytest": {
+      "version": "==7.1.2",
+      "hashes": [
+        "sha256:dummyhash4"
+      ]
+    },
+    "fake-dev-package": {
+      "version": "==0.1.0",
+      "hashes": [
+        "sha256:dummyhash5"
+      ]
+    }
+  }
+}

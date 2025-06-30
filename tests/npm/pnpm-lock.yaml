@@ -1,0 +1,40 @@
+lockfileVersion: 5.5
+
+specifiers:
+  express: ^4.18.2
+  some-sus-package: ^1.0.0
+  mocha: ^10.2.0
+  chai: ^4.3.7
+  fake-dev-package: ^0.1.0
+  stealthy-malware: 0.0.1
+
+packages:
+  /express/4.18.2:
+    resolution:
+      integrity: sha512-...
+    dev: false
+
+  /some-sus-package/1.0.0:
+    resolution:
+      integrity: sha512-...
+    dev: false
+
+  /mocha/10.2.0:
+    resolution:
+      integrity: sha512-...
+    dev: true
+
+  /chai/4.3.7:
+    resolution:
+      integrity: sha512-...
+    dev: true
+
+  /fake-dev-package/0.1.0:
+    resolution:
+      integrity: sha512-...
+    dev: true
+
+  /stealthy-malware/0.0.1:
+    resolution:
+      integrity: sha512-...
+    dev: false
