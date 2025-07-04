@@ -1,0 +1,21 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    faker (2.19.0)
+    puma (5.6.4)
+    rails (6.1.4)
+      actioncable (= 6.1.4)
+      actionmailbox (= 6.1.4)
+      # ... etc omitted for brevity
+    fake-ruby-gem (0.1.0)
+    fake-dev-gem (0.0.1)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  faker
+  puma (~> 5.0)
+  rails (~> 6.1)
+  fake-ruby-gem
+  fake-dev-gem

@@ -1,0 +1,9 @@
+source "https://rubygems.org"
+
+gem "rails", "~> 6.1"
+gem "puma", "~> 5.0"
+gem "faker"
+
+# Fake gems for testing
+gem "fake-ruby-gem"
+gem "fake-dev-gem", group: :development

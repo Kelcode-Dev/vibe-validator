@@ -1,0 +1,19 @@
+[[package]]
+name = "serde"
+version = "1.0.130"
+
+[[package]]
+name = "tokio"
+version = "1.14.0"
+
+[[package]]
+name = "fake-vibe-crate"
+version = "0.1.0"
+
+[[package]]
+name = "rand"
+version = "0.8.4"
+
+[[package]]
+name = "fake-vibe-dev-crate"
+version = "0.0.1"

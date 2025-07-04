@@ -1,0 +1,11 @@
+{
+  "packages": [
+    { "name": "monolog/monolog" },
+    { "name": "symfony/console" },
+    { "name": "fake-vibe-package/php-bad" }
+  ],
+  "packages-dev": [
+    { "name": "phpunit/phpunit" },
+    { "name": "fake-vibe-dev/package-evil" }
+  ]
+}
