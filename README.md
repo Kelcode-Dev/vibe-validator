@@ -31,7 +31,7 @@ go build -o vibe-validator
 Or install globally (once released):
 
 ```bash
-go install github.com/Kelcode-Dev/vibe-validator@latest
+go install github.com/Kelcode-Dev/vibe-validator@0.2.0
 ```
 
 ## 🚀 Usage
@@ -44,8 +44,9 @@ Examples:
 
 ```bash
 vibe-validator .
-vibe-validator ./tests/npm --include-lockfiles
-vibe-validator ~/code/my-cool-app --include-lockfiles
+vibe-validator ./tests/npm --include-lockfiles # includes package lock files
+vibe-validator ~/code/my-cool-app --include-vendor # includes vendor specific package files
+vibe-validator ./tests -vv # max verbosity
 ```
 
 ## ✅ Output Format
@@ -69,6 +70,12 @@ go:
   [~] github.com/sus/module     Recently added (3 days ago)  tests/go/go.mod
 ```
 
+### Verbosity Levels
+
+* By default (no verbosity flags), only packages needing attention are shown: [✗] (not found) and [~] (investigate)
+* `-v` adds all [✓] (safe) packages to the output
+* `-vv` includes a count and detailed scanning logs of all dependencies found (including duplicates)
+
 ## 🛠️ Roadmap
 
 * [ ] GitHub repo validation (e.g. missing README, license, stars)
@@ -81,3 +88,16 @@ go:
 ## 📜 License
 
 MIT — but if you use this to vibe-check your production stack, please consider buying your devs coffee ☕
+
+## 📝 Changelog
+
+### 0.2.0 - 2025-06-30
+- Refactored scanner architecture to driver-based pattern for easier extensibility
+- Added PHP, Ruby, and Rust dependency scanners and validators
+- Improved CLI with verbosity flags for progressive output
+
+### 0.1.0 - 2025-06-25
+- Initial release supporting Python, JavaScript, and Go dependencies
+- Basic validation of package existence and recent publish dates
+- Terminal-friendly dependency vibe report output
+- Support for vendor folders and lockfile scanning (`--include-vendor`, `--include-lockfiles`)
