@@ -6,6 +6,7 @@ toolchain go1.24.4
 
 require (
 	github.com/briandowns/spinner v1.23.2
+	github.com/pelletier/go-toml v1.9.5
 	github.com/spf13/cobra v1.9.1
 	golang.org/x/mod v0.25.0
 )
