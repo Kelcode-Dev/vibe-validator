@@ -9,22 +9,26 @@ type ValidationResult struct {
   Paths   []string `json:"paths"`
 }
 
-// ValidatePackages runs validation on py, npm, and go dependencies with multiple paths
-func ValidatePackages(
-  pyDeps map[string][]string,
-  npmDeps map[string][]string,
-  goDeps map[string][]string,
-) []ValidationResult {
+func ValidatePackages(allDeps map[string]map[string][]string) []ValidationResult {
   var results []ValidationResult
 
-  for pkg, paths := range pyDeps {
-    results = append(results, validatePyPI(pkg, paths))
-  }
-  for pkg, paths := range npmDeps {
-    results = append(results, validateNPM(pkg, paths))
-  }
-  for pkg, paths := range goDeps {
-    results = append(results, validateGoModule(pkg, paths))
+  for eco, deps := range allDeps {
+    for pkg, paths := range deps {
+      switch eco {
+        case "pypi":
+          results = append(results, validatePyPI(pkg, paths))
+        case "npm":
+          results = append(results, validateNPM(pkg, paths))
+        case "go":
+          results = append(results, validateGoModule(pkg, paths))
+        case "php":
+          results = append(results, validatePHP(pkg, paths))
+        case "ruby":
+          results = append(results, validateRuby(pkg, paths))
+        case "rust":
+          results = append(results, validateRust(pkg, paths))
+        }
+    }
   }
 
   return results

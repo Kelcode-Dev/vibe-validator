@@ -10,7 +10,7 @@ import (
   "github.com/Kelcode-Dev/vibe-validator/validator"
 )
 
-func PrintReport(results []validator.ValidationResult) {
+func PrintReport(results []validator.ValidationResult, verbosity int) {
   if len(results) == 0 {
     fmt.Println("No dependencies found.")
     return
@@ -23,26 +23,35 @@ func PrintReport(results []validator.ValidationResult) {
     groups[r.Source] = append(groups[r.Source], r)
   }
 
-  ecosystems := []string{"pypi", "npm", "go"}
-  for _, eco := range ecosystems {
-    group, ok := groups[eco]
-    if !ok {
+  for eco, group := range groups {
+    filtered := []validator.ValidationResult{}
+    for _, r := range group {
+      // Filter by verbosity:
+      if verbosity == 0 && r.Status == "safe" {
+        continue // default: hide safe
+      }
+      filtered = append(filtered, r)
+    }
+
+    if len(filtered) == 0 {
       continue
     }
 
-    sort.Slice(group, func(i, j int) bool {
-      return group[i].Name < group[j].Name
+    sort.Slice(filtered, func(i, j int) bool {
+      return filtered[i].Name < filtered[j].Name
     })
 
     fmt.Printf("%s:\n", eco)
     w := tabwriter.NewWriter(os.Stdout, 0, 0, 2, ' ', 0)
     fmt.Fprintln(w, "  Status\tName\tDetails\tPath")
-    for _, r := range group {
+
+    for _, r := range filtered {
       icon := map[string]string{
         "safe":        "[✓]",
         "investigate": "[~]",
         "not_found":   "[✗]",
       }[r.Status]
+
       detail := r.Details
       if detail == "" {
         detail = "-"
@@ -54,3 +63,4 @@ func PrintReport(results []validator.ValidationResult) {
     fmt.Println()
   }
 }
+

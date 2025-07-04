@@ -2,8 +2,8 @@ package cmd
 
 import (
   "fmt"
-  "os"
   "time"
+  "os"
 
   "github.com/spf13/cobra"
   "github.com/Kelcode-Dev/vibe-validator/scanner"
@@ -12,12 +12,16 @@ import (
   "github.com/briandowns/spinner"
 )
 
-var includeLockfiles bool
-var includeVendor bool
+var (
+  includeLockfiles bool
+  includeVendor bool
+  verbosity int = 0
+)
 
 func init() {
   rootCmd.Flags().BoolVar(&includeLockfiles, "include-lockfiles", false, "Scan npm/yarn lockfiles for all dependencies")
   rootCmd.Flags().BoolVar(&includeVendor, "include-vendor", false, "Include vendor directories in scanning (slow!)")
+  rootCmd.PersistentFlags().CountVarP(&verbosity, "verbose", "v", "Increase verbosity level")
 }
 
 var rootCmd = &cobra.Command{
@@ -26,18 +30,41 @@ var rootCmd = &cobra.Command{
   Args:  cobra.ExactArgs(1),
   Run: func(cmd *cobra.Command, args []string) {
     path := args[0]
+    //create a cli logo for the top of the output
     fmt.Println("[oo] Scanning:", path)
 
+    opts := scanner.ScanOptions{
+      IncludeLockfiles: includeLockfiles,
+      IncludeVendor:    includeVendor,
+      Verbosity:        verbosity,
+    }
+
     s := spinner.New(spinner.CharSets[9], 100*time.Millisecond)
-    s.Suffix = " scanning dependencies..."
-    s.Start()
-    defer s.Stop()
+    if verbosity < 2 {
+      s.Suffix = " scanning dependencies..."
+      s.Start()
+      defer s.Stop()
+    }
 
-    pyDeps, npmDeps, goDeps := scanner.ScanDependencies(path, includeLockfiles, includeVendor)
-    results := validator.ValidatePackages(pyDeps, npmDeps, goDeps)
+    deps, err := scanner.ScanDependencies(path, opts)
+    if verbosity < 2 {
+      s.Stop()
+    }
+    if err != nil {
+      fmt.Printf("❌ Scan failed: %v\n", err)
+      os.Exit(1)
+    }
 
-    s.Stop() // stop spinner before printing
-    reporter.PrintReport(results)
+    v := spinner.New(spinner.CharSets[9], 100*time.Millisecond)
+    v.Suffix = " Validating dependencies..."
+    v.Start()
+    defer v.Stop()
+
+    results := validator.ValidatePackages(deps)
+    v.Stop()
+
+    fmt.Println("Validation complete, prepping report...")
+    reporter.PrintReport(results, verbosity)
   },
 }
 
