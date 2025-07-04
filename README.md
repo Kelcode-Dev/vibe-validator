@@ -100,8 +100,10 @@ MIT — but if you use this to vibe-check your production stack, please consider
 - Added PHP, Ruby, and Rust dependency scanners and validators
 - Improved CLI with verbosity flags for progressive output
 
-### 0.1.0 - 2025-06-25
+### 0.1.1 - 2025-06-30
+- Support for vendor folders and lockfile scanning (`--include-vendor`, `--include-lockfiles`)
+
+### 0.1.0 - 2025-06-30
 - Initial release supporting Python, JavaScript, and Go dependencies
 - Basic validation of package existence and recent publish dates
 - Terminal-friendly dependency vibe report output
-- Support for vendor folders and lockfile scanning (`--include-vendor`, `--include-lockfiles`)
