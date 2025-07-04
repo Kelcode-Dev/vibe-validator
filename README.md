@@ -1,4 +1,8 @@
-# vibe-validator
+# Vibe Validator
+
+[![GitHub release](https://img.shields.io/github/v/release/Kelcode-Dev/vibe-validator?style=flat-square)](https://github.com/Kelcode-Dev/vibe-validator/releases)
+[![Go Report Card](https://goreportcard.com/badge/github.com/Kelcode-Dev/vibe-validator?style=flat-square)](https://goreportcard.com/report/github.com/Kelcode-Dev/vibe-validator)
+[![PkgGoDev](https://pkg.go.dev/badge/github.com/Kelcode-Dev/vibe-validator)](https://pkg.go.dev/github.com/Kelcode-Dev/vibe-validator)
 
 [oo] Vibe check your dependencies.
 
